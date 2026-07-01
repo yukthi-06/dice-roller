@@ -156,31 +156,43 @@ public class CardsFragment extends Fragment {
         if (holder instanceof CardAdapter.CardViewHolder) {
             View cardView = ((CardAdapter.CardViewHolder) holder).binding.tvCard;
             
-            ObjectAnimator flipOut = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f);
-            flipOut.setDuration(150);
-            flipOut.addListener(new AnimatorListenerAdapter() {
+            // Fast spin animation before revealing
+            ObjectAnimator fastSpin = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 1080f); // 3 full spins
+            fastSpin.setDuration(600);
+            fastSpin.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+            
+            fastSpin.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    Card finalCard = finalCards.get(index);
-                    cards.set(index, finalCard);
-                    
-                    ((TextView) cardView).setBackgroundResource(com.example.diceroller.R.drawable.card_bg);
-                    ((TextView) cardView).setText(finalCard.getDisplayString());
-                    ((TextView) cardView).setTextColor(finalCard.isRed() ? Color.RED : Color.BLACK);
-
-                    cardView.setRotationY(-90f);
-                    ObjectAnimator flipIn = ObjectAnimator.ofFloat(cardView, "rotationY", -90f, 0f);
-                    flipIn.setDuration(150);
-                    flipIn.addListener(new AnimatorListenerAdapter() {
+                    cardView.setRotationY(0f);
+                    ObjectAnimator flipOut = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f);
+                    flipOut.setDuration(150);
+                    flipOut.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            animateCardSequentially(index + 1, finalCards);
+                            Card finalCard = finalCards.get(index);
+                            cards.set(index, finalCard);
+                            
+                            ((TextView) cardView).setBackgroundResource(com.example.diceroller.R.drawable.card_bg);
+                            ((TextView) cardView).setText(finalCard.getDisplayString());
+                            ((TextView) cardView).setTextColor(finalCard.isRed() ? Color.RED : Color.BLACK);
+
+                            cardView.setRotationY(-90f);
+                            ObjectAnimator flipIn = ObjectAnimator.ofFloat(cardView, "rotationY", -90f, 0f);
+                            flipIn.setDuration(150);
+                            flipIn.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    animateCardSequentially(index + 1, finalCards);
+                                }
+                            });
+                            flipIn.start();
                         }
                     });
-                    flipIn.start();
+                    flipOut.start();
                 }
             });
-            flipOut.start();
+            fastSpin.start();
         } else {
             // View might be null if scrolled off screen
             cards.set(index, finalCards.get(index));
