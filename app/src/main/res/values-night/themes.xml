@@ -7,6 +7,13 @@
         <item name="colorSecondaryVariant">@color/dark_secondary</item>
         <item name="colorOnSecondary">@color/on_secondary</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        
+        <!-- Background colors for dark casino theme -->
+        <item name="android:windowBackground">@color/dark_casino_green</item>
+        <item name="android:colorBackground">@color/dark_casino_green</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <style name="Theme.DiceRoller.NoActionBar">
