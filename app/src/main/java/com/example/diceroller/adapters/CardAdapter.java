@@ -44,7 +44,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        final ItemCardBinding binding;
+        public final ItemCardBinding binding;
         public CardViewHolder(ItemCardBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

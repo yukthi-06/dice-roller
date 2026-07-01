@@ -10,6 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.widget.TextView;
 import com.example.diceroller.adapters.CardAdapter;
 import com.example.diceroller.databinding.FragmentCardsBinding;
 import com.example.diceroller.models.Card;
@@ -125,42 +131,62 @@ public class CardsFragment extends Fragment {
 
     private void pickCards() {
         setControlsEnabled(false);
-        int duration = prefManager.getAnimationDuration();
-        animationHandler = new Handler(Looper.getMainLooper());
         
-        final long startTime = System.currentTimeMillis();
+        // Reset all cards to face down instantly
+        for (Card c : cards) {
+            c.setFaceUp(false);
+        }
+        adapter.notifyDataSetChanged();
         
-        // Animate the RecyclerView slightly for visual effect
-        AnimationUtils.rotateView(binding.recyclerView, duration);
-        
-        animationRunnable = new Runnable() {
-            @Override
-            public void run() {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                if (elapsedTime < duration) {
-                    List<Card> randomDeck = RandomUtils.pickRandomCards(cardsCount);
-                    for (int i = 0; i < cards.size(); i++) {
-                        Card c = randomDeck.get(i);
-                        // Randomly show front or back
-                        c.setFaceUp(Math.random() > 0.5);
-                        cards.set(i, c);
-                    }
-                    adapter.notifyDataSetChanged();
-                    animationHandler.postDelayed(this, 200);
-                } else {
-                    List<Card> finalCards = RandomUtils.pickRandomCards(cardsCount);
-                    for (int i = 0; i < cards.size(); i++) {
-                        Card c = finalCards.get(i);
-                        c.setFaceUp(true);
-                        cards.set(i, c);
-                    }
-                    adapter.notifyDataSetChanged();
-                    setControlsEnabled(true);
+        // Wait for views to layout after reset
+        binding.recyclerView.post(() -> {
+            List<Card> finalCards = RandomUtils.pickRandomCards(cardsCount);
+            for (Card c : finalCards) c.setFaceUp(true);
+            animateCardSequentially(0, finalCards);
+        });
+    }
+
+    private void animateCardSequentially(int index, List<Card> finalCards) {
+        if (index >= cards.size()) {
+            setControlsEnabled(true);
+            return;
+        }
+
+        RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(index);
+        if (holder instanceof CardAdapter.CardViewHolder) {
+            View cardView = ((CardAdapter.CardViewHolder) holder).binding.tvCard;
+            
+            ObjectAnimator flipOut = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f);
+            flipOut.setDuration(150);
+            flipOut.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    Card finalCard = finalCards.get(index);
+                    cards.set(index, finalCard);
+                    
+                    ((TextView) cardView).setBackgroundResource(com.example.diceroller.R.drawable.card_bg);
+                    ((TextView) cardView).setText(finalCard.getDisplayString());
+                    ((TextView) cardView).setTextColor(finalCard.isRed() ? Color.RED : Color.BLACK);
+
+                    cardView.setRotationY(-90f);
+                    ObjectAnimator flipIn = ObjectAnimator.ofFloat(cardView, "rotationY", -90f, 0f);
+                    flipIn.setDuration(150);
+                    flipIn.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animateCardSequentially(index + 1, finalCards);
+                        }
+                    });
+                    flipIn.start();
                 }
-            }
-        };
-        
-        animationHandler.post(animationRunnable);
+            });
+            flipOut.start();
+        } else {
+            // View might be null if scrolled off screen
+            cards.set(index, finalCards.get(index));
+            adapter.notifyItemChanged(index);
+            animateCardSequentially(index + 1, finalCards);
+        }
     }
 
     @Override
