@@ -72,11 +72,9 @@
             app:showSeekBarValue="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Actions">
-        <Preference
-            app:key="action_save"
-            app:title="Save Configuration"
-            app:summary="Save changes and export to JSON" />
-    </PreferenceCategory>
+    <Preference
+        app:key="action_save"
+        app:title="Save Configuration"
+        app:layout="@layout/preference_button" />
 
 </PreferenceScreen>
