@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.nav_alphabet) {
             fragment = new com.example.diceroller.fragments.AlphabetFragment();
             title = getString(R.string.menu_alphabet);
+        } else if (id == R.id.nav_words) {
+            fragment = new com.example.diceroller.fragments.WordsFragment();
+            title = getString(R.string.menu_words);
         } else if (id == R.id.nav_settings) {
             fragment = new SettingsFragment();
             title = getString(R.string.menu_settings);

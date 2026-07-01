@@ -15,12 +15,25 @@ public class RandomUtils {
         return random.nextInt(6) + 1; // 1-6
     }
 
+    private static final String[] DICTIONARY = {
+        "Apple", "Banana", "Cat", "Dog", "Elephant", "Frog", "Giraffe", "Horse", "Ice", "Jungle",
+        "Kangaroo", "Lion", "Monkey", "Nest", "Orange", "Penguin", "Queen", "Rabbit", "Sun", "Tree",
+        "Umbrella", "Violet", "Water", "Xylophone", "Yellow", "Zebra", "Bird", "Car", "Desk", "Fish",
+        "Goat", "Hat", "Igloo", "Juice", "Kite", "Lamp", "Mouse", "Nut", "Owl", "Pig",
+        "Quilt", "Rose", "Star", "Train", "Unicorn", "Van", "Whale", "Yacht", "Zip", "Ant",
+        "Bear", "Cow", "Duck", "Eagle", "Fox", "Guitar", "House", "Island", "Jacket", "Key"
+    };
+
     public static int getRandomNumber(int max) {
         return random.nextInt(max) + 1; // 1-max
     }
 
     public static char getRandomAlphabet() {
         return (char) ('A' + random.nextInt(26));
+    }
+
+    public static String getRandomWord() {
+        return DICTIONARY[random.nextInt(DICTIONARY.length)];
     }
 
     public static List<Card> getStandardDeck() {
