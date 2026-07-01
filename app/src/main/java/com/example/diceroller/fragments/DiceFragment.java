@@ -10,6 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.widget.ImageView;
 import com.example.diceroller.adapters.DiceAdapter;
 import com.example.diceroller.databinding.FragmentDiceBinding;
 import com.example.diceroller.utils.PreferenceManager;
@@ -138,26 +143,47 @@ public class DiceFragment extends Fragment {
         
         final long startTime = System.currentTimeMillis();
         
+        // Generate final result instantly
+        List<Integer> finalFaces = new ArrayList<>();
+        for (int i = 0; i < diceCount; i++) {
+            finalFaces.add(RandomUtils.getRandomDiceFace());
+        }
+        
         // Start physical view animations
         for (int i = 0; i < adapter.getItemCount(); i++) {
-            androidx.recyclerview.widget.RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
-            if (holder instanceof com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) {
-                View diceView = ((com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) holder).binding.ivDice;
-                diceView.animate()
-                        .rotationBy((float) (360 * 4 * (Math.random() > 0.5 ? 1 : -1)))
-                        .scaleX(1.3f)
-                        .scaleY(1.3f)
-                        .setDuration(duration / 2)
-                        .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
-                        .withEndAction(() -> {
-                            diceView.animate()
-                                    .scaleX(1.0f)
-                                    .scaleY(1.0f)
-                                    .setDuration(duration / 2)
-                                    .setInterpolator(new android.view.animation.BounceInterpolator())
-                                    .start();
-                        })
-                        .start();
+            RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder instanceof DiceAdapter.DiceViewHolder) {
+                View diceView = ((DiceAdapter.DiceViewHolder) holder).binding.ivDice;
+                
+                // Continuous decelerating rotation over full duration
+                ObjectAnimator rotate = ObjectAnimator.ofFloat(diceView, "rotation", diceView.getRotation(), diceView.getRotation() + (360 * 5 * (Math.random() > 0.5 ? 1 : -1)));
+                rotate.setDuration(duration);
+                rotate.setInterpolator(new android.view.animation.DecelerateInterpolator(1.5f));
+                rotate.start();
+                
+                // Bounce scale animation
+                ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(diceView, "scaleX", 1f, 1.3f);
+                ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(diceView, "scaleY", 1f, 1.3f);
+                scaleUpX.setDuration(duration / 2);
+                scaleUpY.setDuration(duration / 2);
+                scaleUpX.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+                scaleUpY.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+                
+                scaleUpX.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(diceView, "scaleX", 1.3f, 1f);
+                        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(diceView, "scaleY", 1.3f, 1f);
+                        scaleDownX.setDuration(duration / 2);
+                        scaleDownY.setDuration(duration / 2);
+                        scaleDownX.setInterpolator(new android.view.animation.BounceInterpolator());
+                        scaleDownY.setInterpolator(new android.view.animation.BounceInterpolator());
+                        scaleDownX.start();
+                        scaleDownY.start();
+                    }
+                });
+                scaleUpX.start();
+                scaleUpY.start();
             }
         }
         
@@ -165,23 +191,42 @@ public class DiceFragment extends Fragment {
             @Override
             public void run() {
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                if (elapsedTime < duration) {
+                if (elapsedTime < duration / 2) { // Stop shuffling faces halfway through the rotation
                     // Randomize faces visually without breaking animation
                     for (int i = 0; i < adapter.getItemCount(); i++) {
-                        androidx.recyclerview.widget.RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
-                        if (holder instanceof com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) {
-                            android.widget.ImageView iv = ((com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) holder).binding.ivDice;
+                        RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof DiceAdapter.DiceViewHolder) {
+                            ImageView iv = ((DiceAdapter.DiceViewHolder) holder).binding.ivDice;
                             iv.setImageResource(getDiceDrawable(RandomUtils.getRandomDiceFace()));
                         }
                     }
                     animationHandler.postDelayed(this, 80);
                 } else {
-                    // Final result
-                    for (int i = 0; i < diceFaces.size(); i++) {
-                        diceFaces.set(i, RandomUtils.getRandomDiceFace());
+                    // Settle on final face visually while rotation finishes
+                    for (int i = 0; i < adapter.getItemCount(); i++) {
+                        RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof DiceAdapter.DiceViewHolder) {
+                            ImageView iv = ((DiceAdapter.DiceViewHolder) holder).binding.ivDice;
+                            iv.setImageResource(getDiceDrawable(finalFaces.get(i)));
+                        }
                     }
-                    adapter.notifyDataSetChanged();
-                    setControlsEnabled(true);
+                    
+                    // Update data model
+                    for (int i = 0; i < diceFaces.size(); i++) {
+                        diceFaces.set(i, finalFaces.get(i));
+                    }
+                    
+                    // Wait for the remaining rotation to complete before enabling controls
+                    long remainingTime = duration - elapsedTime;
+                    if (remainingTime > 0) {
+                        animationHandler.postDelayed(() -> {
+                            adapter.notifyDataSetChanged();
+                            setControlsEnabled(true);
+                        }, remainingTime);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                        setControlsEnabled(true);
+                    }
                 }
             }
         };
