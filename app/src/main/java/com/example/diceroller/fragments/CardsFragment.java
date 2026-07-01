@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import com.example.diceroller.adapters.CardAdapter;
 import com.example.diceroller.databinding.FragmentCardsBinding;
 import com.example.diceroller.models.Card;
@@ -41,6 +42,7 @@ public class CardsFragment extends Fragment {
         adapter = new CardAdapter(cards);
         binding.recyclerView.setAdapter(adapter);
         
+        updateLayoutManager();
         updateCountUI();
 
         binding.btnMinus.setOnClickListener(v -> {
@@ -48,6 +50,7 @@ public class CardsFragment extends Fragment {
                 cardsCount--;
                 updateCountUI();
                 initCards();
+                updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -57,6 +60,7 @@ public class CardsFragment extends Fragment {
                 cardsCount++;
                 updateCountUI();
                 initCards();
+                updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -73,6 +77,40 @@ public class CardsFragment extends Fragment {
             c.setFaceUp(false);
             cards.add(c);
         }
+    }
+
+    private void updateLayoutManager() {
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 6);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int total = cardsCount;
+                if (total == 1) return 6;
+                if (total == 2) return 3;
+                if (total == 3) return 2;
+                if (total == 4) return 3;
+                if (total == 5) {
+                    if (position < 3) return 2;
+                    else return 3;
+                }
+                if (total == 6) return 2;
+                if (total == 7) {
+                    if (position < 3) return 2;
+                    else return 3;
+                }
+                if (total == 8) {
+                    if (position < 6) return 2;
+                    else return 3;
+                }
+                if (total == 9) return 2;
+                if (total == 10) {
+                    if (position < 9) return 2;
+                    else return 6;
+                }
+                return 2;
+            }
+        });
+        binding.recyclerView.setLayoutManager(layoutManager);
     }
 
     private void updateCountUI() {
