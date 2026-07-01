@@ -48,6 +48,15 @@ public class RandomUtils {
         return DICTIONARY.get(random.nextInt(DICTIONARY.size()));
     }
 
+    public static String getRandomGibberishWord() {
+        int length = random.nextInt(5) + 4; // 4 to 8 characters
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append((char) ('a' + random.nextInt(26)));
+        }
+        return sb.toString();
+    }
+
     public static List<Card> getStandardDeck() {
         List<Card> deck = new ArrayList<>();
         for (String suit : SUITS) {

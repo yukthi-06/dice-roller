@@ -105,7 +105,7 @@ public class WordsFragment extends Fragment {
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 if (elapsedTime < duration) {
                     for (int i = 0; i < words.size(); i++) {
-                        words.set(i, RandomUtils.getRandomWord());
+                        words.set(i, RandomUtils.getRandomGibberishWord());
                     }
                     adapter.notifyDataSetChanged();
                     animationHandler.postDelayed(this, 100);
