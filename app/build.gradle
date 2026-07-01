@@ -70,3 +70,22 @@ dependencies {
     def f = file(it)
     if (f.exists()) f.delete()
 }
+
+// Copy dice.png to mipmap
+def diceFile = file('../dice.png')
+def mipmapDir = file('src/main/res/mipmap-xxhdpi')
+def icLauncherPng = file('src/main/res/mipmap-xxhdpi/ic_launcher.png')
+def icLauncherRoundPng = file('src/main/res/mipmap-xxhdpi/ic_launcher_round.png')
+
+if (diceFile.exists()) {
+    if (!mipmapDir.exists()) mipmapDir.mkdirs()
+    icLauncherPng.bytes = diceFile.bytes
+    icLauncherRoundPng.bytes = diceFile.bytes
+    
+    // Delete anydpi-v26 folder to force fallback to the PNGs
+    def anyDpiDir = file('src/main/res/mipmap-anydpi-v26')
+    if (anyDpiDir.exists()) {
+        anyDpiDir.deleteDir()
+    }
+}
+
