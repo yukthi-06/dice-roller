@@ -14,6 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sokoban Game System"
-include ':sokoban-engine'
-include ':sokoban-android'
+rootProject.name = "Dice Roller"
+include ':app'

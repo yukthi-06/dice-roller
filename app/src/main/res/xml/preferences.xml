@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <PreferenceCategory app:title="General Settings">
+        <SwitchPreferenceCompat
+            app:key="pref_dark_mode"
+            app:title="@string/pref_dark_mode_title"
+            app:defaultValue="false" />
+            
+        <SwitchPreferenceCompat
+            app:key="pref_sound"
+            app:title="@string/pref_sound_title"
+            app:defaultValue="true" />
+            
+        <SwitchPreferenceCompat
+            app:key="pref_vibration"
+            app:title="@string/pref_vibration_title"
+            app:defaultValue="true" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory app:title="Animations">
+        <ListPreference
+            app:key="pref_animation_duration"
+            app:title="@string/pref_animation_duration_title"
+            app:summary="@string/pref_animation_duration_summary"
+            app:entries="@array/animation_durations"
+            app:entryValues="@array/animation_duration_values"
+            app:defaultValue="2000" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Defaults">
+        <SeekBarPreference
+            app:key="pref_default_dice"
+            app:title="@string/pref_default_dice_title"
+            app:min="1"
+            android:max="10"
+            app:defaultValue="1"
+            app:showSeekBarValue="true" />
+            
+        <SeekBarPreference
+            app:key="pref_default_cards"
+            app:title="@string/pref_default_cards_title"
+            app:min="1"
+            android:max="10"
+            app:defaultValue="1"
+            app:showSeekBarValue="true" />
+            
+        <SeekBarPreference
+            app:key="pref_default_numbers"
+            app:title="@string/pref_default_numbers_title"
+            app:min="1"
+            android:max="10"
+            app:defaultValue="1"
+            app:showSeekBarValue="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

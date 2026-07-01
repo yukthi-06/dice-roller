@@ -1,36 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Light Theme Palette (Sleek Green / Emerald / Teal accents for Backup & Restore vibe) -->
-    <color name="primary">#0F9D58</color>
-    <color name="primary_variant">#0B8043</color>
-    <color name="onPrimary">#FFFFFF</color>
-    <color name="primaryContainer">#D2F0DE</color>
-    <color name="onPrimaryContainer">#00391C</color>
-
-    <color name="secondary">#3F51B5</color>
-    <color name="onSecondary">#FFFFFF</color>
-    <color name="secondaryContainer">#E8EAF6</color>
-    <color name="onSecondaryContainer">#1A237E</color>
-
-    <color name="background">#FAFAFA</color>
-    <color name="onBackground">#1A1A1A</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="onSurface">#1A1A1A</color>
-    <color name="surfaceVariant">#F0F0F0</color>
-    <color name="onSurfaceVariant">#4A4A4A</color>
-    <color name="outline">#CCCCCC</color>
-
-    <!-- UI State Colors -->
-    <color name="success">#2E7D32</color>
-    <color name="error">#C62828</color>
-    <color name="warning">#EF6C00</color>
+    <color name="primary">#6200EE</color>
+    <color name="primary_variant">#3700B3</color>
+    <color name="secondary">#03DAC5</color>
+    <color name="secondary_variant">#018786</color>
     
-    <!-- System App Indicator -->
-    <color name="system_app_indicator">#E0F2F1</color>
-    <color name="system_app_text">#004D40</color>
-    <color name="user_app_indicator">#E3F2FD</color>
-    <color name="user_app_text">#0D47A1</color>
-
-    <!-- Translucent Overlay -->
-    <color name="scrim">#99000000</color>
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#000000</color>
+    <color name="on_background">#000000</color>
+    <color name="on_surface">#000000</color>
+    <color name="on_error">#FFFFFF</color>
+    
+    <!-- Dark Mode Colors -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#121212</color>
+    <color name="dark_primary">#BB86FC</color>
+    <color name="dark_secondary">#03DAC6</color>
+    <color name="dark_on_background">#FFFFFF</color>
+    <color name="dark_on_surface">#FFFFFF</color>
 </resources>
