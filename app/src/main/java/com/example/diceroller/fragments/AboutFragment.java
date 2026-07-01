@@ -17,6 +17,13 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAboutBinding.inflate(inflater, container, false);
+        
+        String buildInfo = "App Version: " + com.example.diceroller.BuildConfig.VERSION_NAME + "\n"
+                + "Version Code: " + com.example.diceroller.BuildConfig.VERSION_CODE + "\n"
+                + "Build Type: " + com.example.diceroller.BuildConfig.BUILD_TYPE + "\n"
+                + "Application ID: " + com.example.diceroller.BuildConfig.APPLICATION_ID;
+        binding.tvBuildInfo.setText(buildInfo);
+        
         return binding.getRoot();
     }
 
