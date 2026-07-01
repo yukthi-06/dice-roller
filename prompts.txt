@@ -1,0 +1,400 @@
+create an android application which is basically a "Dice Roller" game
+On the left side there is a menu, with these items
+	- Dice
+	- Cards
+	- Numbers
+	- Settings
+	- Help
+	- About
+When Dice is selected
+	the screen should have 
+		top section with number increment/decrement for number of dice
+		Middle section showing a number of dice(based on top section value)
+		bottom section should have a button 'Roll Dice'
+	when 'Roll dice' is clicked, 'n' number or dice rolling animation is shown
+		after 2 seconds, the dice should show random values on its face
+When Cards is selected
+	the screen should have 
+		top section with number increment/decrement for number of decks
+		Middle section showing a number of decks(based on top section value)
+		bottom section should have a button 'Pick Cards'
+	when 'Pick Cards' is clicked, 'n' number of descks schuffling animation is shown
+		after 2 seconds, the decks should show random values on its face
+When Numbers is selected		
+	the screen should have 
+		top section with number increment/decrement for number of counters
+		Middle section showing a number of numbers(based on top section value)
+		bottom section should have a button 'Random Number...'
+	when 'Random Number..' is clicked, 'n' random numbers changing animation is shown
+		after 2 seconds, the 'n' random values on the screen
+
+Develop in java only (no kotlin)
+Gradle build
+
+
+=============================================================================
+Here is a single detailed prompt you can give to an AI IDE (such as Cursor, Windsurf, GitHub Copilot, Roo Code, Claude Code, etc.) to generate the complete Android project.
+
+---
+
+**Prompt:**
+
+> Create a complete Android Studio application in **Java only** (do NOT use Kotlin anywhere). The project must use the **Gradle build system**, AndroidX libraries, and Material Design components.
+>
+> ## Application Name
+>
+> **Dice Roller**
+>
+> ## General Requirements
+>
+> * Language: Java only
+> * Build System: Gradle (Groovy)
+> * Minimum SDK: 24
+> * Target SDK: Latest stable
+> * Use AndroidX
+> * Follow MVVM or clean architecture where appropriate.
+> * Use ViewBinding (no findViewById where possible).
+> * Use Material Design.
+> * No Jetpack Compose.
+> * No Kotlin files.
+> * Code should be clean, modular, documented, and production quality.
+>
+> ---
+>
+> ## Main UI
+>
+> The application starts with a single MainActivity.
+>
+> Use a Navigation Drawer (left-side sliding menu) with a Toolbar.
+>
+> Drawer menu items:
+>
+> * Dice
+> * Cards
+> * Numbers
+> * Settings
+> * Help
+> * About
+>
+> Selecting each item replaces the content using Fragments.
+>
+> Use:
+>
+> * DrawerLayout
+> * NavigationView
+> * FragmentContainerView
+> * ActionBarDrawerToggle
+>
+> ---
+>
+> # Dice Fragment
+>
+> Layout:
+>
+> ### Top Section
+>
+> A horizontal layout containing:
+>
+> * Minus button
+> * TextView showing current number of dice
+> * Plus button
+>
+> Minimum dice = 1
+>
+> Maximum dice = 10
+>
+> ### Middle Section
+>
+> Display the selected number of dice.
+>
+> Use ImageViews inside a GridLayout or RecyclerView.
+>
+> Each die should display one of six dice face images.
+>
+> Initially every die displays face "1".
+>
+> ### Bottom Section
+>
+> Large Material Button:
+>
+> "Roll Dice"
+>
+> ---
+>
+> ## Dice Animation
+>
+> When Roll Dice is pressed:
+>
+> * Disable controls.
+> * Animate every die for exactly 2 seconds.
+> * Dice should rapidly change faces randomly during animation.
+> * Use Handler, ValueAnimator, or ObjectAnimator.
+> * After exactly 2 seconds:
+>
+>   * Stop animation.
+>   * Generate random value (1-6) for each die.
+>   * Show correct dice face.
+> * Re-enable controls.
+>
+> ---
+>
+> # Cards Fragment
+>
+> Layout identical to Dice.
+>
+> ### Top
+>
+> * Minus
+> * Number of cards
+> * Plus
+>
+> Minimum = 1
+>
+> Maximum = 10
+>
+> ### Middle
+>
+> Show N playing cards.
+>
+> Initially show card backs.
+>
+> ### Bottom
+>
+> Button:
+>
+> "Pick Cards"
+>
+> ---
+>
+> ## Card Animation
+>
+> When button pressed:
+>
+> * Disable controls.
+> * Show shuffle animation for exactly 2 seconds.
+> * Cards should rotate slightly and repeatedly switch between back/front images.
+> * After 2 seconds:
+>
+>   * Randomly choose cards from a standard 52-card deck.
+>   * No duplicate cards.
+>   * Display selected card images.
+> * Enable controls.
+>
+> ---
+>
+> # Numbers Fragment
+>
+> Layout:
+>
+> ### Top
+>
+> Minus
+>
+> Count
+>
+> Plus
+>
+> Minimum = 1
+>
+> Maximum = 10
+>
+> ### Middle
+>
+> Show N TextViews in a responsive GridLayout.
+>
+> Initially display:
+>
+> 0
+>
+> ### Bottom
+>
+> Button:
+>
+> "Random Number"
+>
+> ---
+>
+> ## Number Animation
+>
+> When button pressed:
+>
+> * Disable controls.
+> * Numbers rapidly change randomly for exactly 2 seconds.
+> * After 2 seconds:
+>
+>   * Display final random integers.
+>   * Range:
+>     1–100
+> * Enable controls.
+>
+> ---
+>
+> # Settings Fragment
+>
+> Include settings using SharedPreferences.
+>
+> Settings:
+>
+> * Animation duration
+>
+>   * 1 second
+>   * 2 seconds
+>   * 3 seconds
+> * Dark Mode
+> * Sound ON/OFF
+> * Vibration ON/OFF
+> * Default dice count
+> * Default card count
+> * Default number count
+>
+> All settings persist after app restart.
+>
+> ---
+>
+> # Help Fragment
+>
+> Explain:
+>
+> * How to roll dice
+> * How to pick cards
+> * How to generate random numbers
+> * Meaning of each setting
+>
+> Use Material typography.
+>
+> ---
+>
+> # About Fragment
+>
+> Include:
+>
+> App name
+>
+> Version
+>
+> Description
+>
+> Developer placeholder
+>
+> Copyright
+>
+> Material CardView layout.
+>
+> ---
+>
+> # Resources
+>
+> Create all required drawable resources.
+>
+> Dice:
+>
+> * dice_1.png
+> * dice_2.png
+> * dice_3.png
+> * dice_4.png
+> * dice_5.png
+> * dice_6.png
+>
+> Cards:
+>
+> Include all 52 playing cards plus card_back.
+>
+> If artwork cannot be included, generate vector placeholders programmatically.
+>
+> ---
+>
+> # Animations
+>
+> Use Android animation APIs.
+>
+> Dice:
+>
+> Random face swapping.
+>
+> Cards:
+>
+> Rotation + shuffle effect.
+>
+> Numbers:
+>
+> Fast changing values.
+>
+> Animation duration must respect Settings.
+>
+> ---
+>
+> # Architecture
+>
+> Create separate Java classes:
+>
+> * MainActivity
+> * DiceFragment
+> * CardsFragment
+> * NumbersFragment
+> * SettingsFragment
+> * HelpFragment
+> * AboutFragment
+> * DiceAdapter
+> * CardAdapter
+> * NumberAdapter
+> * PreferenceManager
+> * RandomUtils
+> * AnimationUtils
+>
+> Organize packages:
+>
+> ```
+> com.example.diceroller
+>     activities
+>     fragments
+>     adapters
+>     models
+>     utils
+>     preferences
+> ```
+>
+> ---
+>
+> # UI Requirements
+>
+> * Responsive layouts.
+> * Support portrait and landscape.
+> * Material colors.
+> * Proper spacing.
+> * Rounded Material buttons.
+> * Toolbar title changes based on selected menu.
+> * Smooth fragment transitions.
+>
+> ---
+>
+> # Code Quality
+>
+> * No warnings.
+> * No deprecated APIs.
+> * JavaDoc comments.
+> * Meaningful variable names.
+> * Reusable methods.
+> * No duplicated code.
+> * Proper lifecycle handling.
+>
+> ---
+>
+> # Deliverables
+>
+> Generate the **complete Android Studio project**, including:
+>
+> * All Java source files
+> * XML layouts
+> * Gradle files
+> * AndroidManifest.xml
+> * Navigation Drawer menu
+> * Drawable resources
+> * String resources
+> * Styles/themes
+> * Animations
+> * Adapters
+> * Utility classes
+> * SharedPreferences implementation
+> * Assets/placeholders where needed
+>
+> The project should compile successfully in Android Studio without requiring any manual modifications. Do not use Kotlin or Jetpack Compose anywhere in the project.
