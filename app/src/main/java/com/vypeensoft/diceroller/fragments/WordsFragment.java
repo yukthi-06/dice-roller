@@ -32,7 +32,7 @@ public class WordsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentWordsBinding.inflate(inflater, container, false);
         prefManager = new PreferenceManager(requireContext());
-        wordsCount = 1; // Defaulting to 1 for simplicity, identical to alphabet logic
+        wordsCount = prefManager.getDefaultWordsCount();
         
         RandomUtils.initDictionary(requireContext());
         

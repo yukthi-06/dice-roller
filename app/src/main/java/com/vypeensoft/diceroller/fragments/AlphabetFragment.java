@@ -32,7 +32,7 @@ public class AlphabetFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAlphabetBinding.inflate(inflater, container, false);
         prefManager = new PreferenceManager(requireContext());
-        alphabetsCount = 1; // Defaulting to 1 for simplicity, identical to number logic
+        alphabetsCount = prefManager.getDefaultAlphabetCount();
         
         alphabets = new ArrayList<>();
         initAlphabets();

@@ -34,6 +34,10 @@
     <string name="pref_default_cards_title">Default Cards Count</string>
     <string name="pref_default_numbers">pref_default_numbers</string>
     <string name="pref_default_numbers_title">Default Numbers Count</string>
+    <string name="pref_default_alphabet">pref_default_alphabet</string>
+    <string name="pref_default_alphabet_title">Default Alphabet Count</string>
+    <string name="pref_default_words">pref_default_words</string>
+    <string name="pref_default_words_title">Default Words Count</string>
 
     <string name="about_description">A versatile application for rolling dice, drawing cards, and generating random numbers. Built with Material Design and Java.</string>
     <string name="about_developer">Developed by Developer Placeholder</string>

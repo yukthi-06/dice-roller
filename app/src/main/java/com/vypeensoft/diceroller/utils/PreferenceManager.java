@@ -43,4 +43,12 @@ public class PreferenceManager {
     public int getDefaultNumbersCount() {
         return prefs.getInt("pref_default_numbers", 1);
     }
+
+    public int getDefaultAlphabetCount() {
+        return prefs.getInt("pref_default_alphabet", 1);
+    }
+
+    public int getDefaultWordsCount() {
+        return prefs.getInt("pref_default_words", 1);
+    }
 }

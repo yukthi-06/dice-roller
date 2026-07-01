@@ -54,6 +54,29 @@
             android:max="10"
             app:defaultValue="1"
             app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            app:key="pref_default_alphabet"
+            app:title="@string/pref_default_alphabet_title"
+            app:min="1"
+            android:max="10"
+            app:defaultValue="1"
+            app:showSeekBarValue="true" />
+            
+        <SeekBarPreference
+            app:key="pref_default_words"
+            app:title="@string/pref_default_words_title"
+            app:min="1"
+            android:max="10"
+            app:defaultValue="1"
+            app:showSeekBarValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Actions">
+        <Preference
+            app:key="action_save"
+            app:title="Save Configuration"
+            app:summary="Save changes and export to JSON" />
     </PreferenceCategory>
 
 </PreferenceScreen>
