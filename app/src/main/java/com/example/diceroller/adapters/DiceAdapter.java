@@ -45,7 +45,7 @@ public class DiceAdapter extends RecyclerView.Adapter<DiceAdapter.DiceViewHolder
     }
 
     public static class DiceViewHolder extends RecyclerView.ViewHolder {
-        final ItemDiceBinding binding;
+        public final ItemDiceBinding binding;
         public DiceViewHolder(ItemDiceBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

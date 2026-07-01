@@ -119,6 +119,18 @@ public class DiceFragment extends Fragment {
         binding.btnAction.setEnabled(enabled);
     }
 
+    private int getDiceDrawable(int face) {
+        switch (face) {
+            case 1: return com.example.diceroller.R.drawable.dice_1;
+            case 2: return com.example.diceroller.R.drawable.dice_2;
+            case 3: return com.example.diceroller.R.drawable.dice_3;
+            case 4: return com.example.diceroller.R.drawable.dice_4;
+            case 5: return com.example.diceroller.R.drawable.dice_5;
+            case 6: return com.example.diceroller.R.drawable.dice_6;
+            default: return com.example.diceroller.R.drawable.dice_1;
+        }
+    }
+
     private void rollDice() {
         setControlsEnabled(false);
         int duration = prefManager.getAnimationDuration();
@@ -126,17 +138,43 @@ public class DiceFragment extends Fragment {
         
         final long startTime = System.currentTimeMillis();
         
+        // Start physical view animations
+        for (int i = 0; i < adapter.getItemCount(); i++) {
+            androidx.recyclerview.widget.RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder instanceof com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) {
+                View diceView = ((com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) holder).binding.ivDice;
+                diceView.animate()
+                        .rotationBy((float) (360 * 4 * (Math.random() > 0.5 ? 1 : -1)))
+                        .scaleX(1.3f)
+                        .scaleY(1.3f)
+                        .setDuration(duration / 2)
+                        .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+                        .withEndAction(() -> {
+                            diceView.animate()
+                                    .scaleX(1.0f)
+                                    .scaleY(1.0f)
+                                    .setDuration(duration / 2)
+                                    .setInterpolator(new android.view.animation.BounceInterpolator())
+                                    .start();
+                        })
+                        .start();
+            }
+        }
+        
         animationRunnable = new Runnable() {
             @Override
             public void run() {
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 if (elapsedTime < duration) {
-                    // Randomize faces for animation
-                    for (int i = 0; i < diceFaces.size(); i++) {
-                        diceFaces.set(i, RandomUtils.getRandomDiceFace());
+                    // Randomize faces visually without breaking animation
+                    for (int i = 0; i < adapter.getItemCount(); i++) {
+                        androidx.recyclerview.widget.RecyclerView.ViewHolder holder = binding.recyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) {
+                            android.widget.ImageView iv = ((com.example.diceroller.adapters.DiceAdapter.DiceViewHolder) holder).binding.ivDice;
+                            iv.setImageResource(getDiceDrawable(RandomUtils.getRandomDiceFace()));
+                        }
                     }
-                    adapter.notifyDataSetChanged();
-                    animationHandler.postDelayed(this, 100);
+                    animationHandler.postDelayed(this, 80);
                 } else {
                     // Final result
                     for (int i = 0; i < diceFaces.size(); i++) {
