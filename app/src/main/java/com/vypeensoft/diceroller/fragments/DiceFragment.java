@@ -1,4 +1,4 @@
-package com.example.diceroller.fragments;
+package com.vypeensoft.diceroller.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,10 +15,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.widget.ImageView;
-import com.example.diceroller.adapters.DiceAdapter;
-import com.example.diceroller.databinding.FragmentDiceBinding;
-import com.example.diceroller.utils.PreferenceManager;
-import com.example.diceroller.utils.RandomUtils;
+import com.vypeensoft.diceroller.adapters.DiceAdapter;
+import com.vypeensoft.diceroller.databinding.FragmentDiceBinding;
+import com.vypeensoft.diceroller.utils.PreferenceManager;
+import com.vypeensoft.diceroller.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,13 +126,13 @@ public class DiceFragment extends Fragment {
 
     private int getDiceDrawable(int face) {
         switch (face) {
-            case 1: return com.example.diceroller.R.drawable.dice_1;
-            case 2: return com.example.diceroller.R.drawable.dice_2;
-            case 3: return com.example.diceroller.R.drawable.dice_3;
-            case 4: return com.example.diceroller.R.drawable.dice_4;
-            case 5: return com.example.diceroller.R.drawable.dice_5;
-            case 6: return com.example.diceroller.R.drawable.dice_6;
-            default: return com.example.diceroller.R.drawable.dice_1;
+            case 1: return com.vypeensoft.diceroller.R.drawable.dice_1;
+            case 2: return com.vypeensoft.diceroller.R.drawable.dice_2;
+            case 3: return com.vypeensoft.diceroller.R.drawable.dice_3;
+            case 4: return com.vypeensoft.diceroller.R.drawable.dice_4;
+            case 5: return com.vypeensoft.diceroller.R.drawable.dice_5;
+            case 6: return com.vypeensoft.diceroller.R.drawable.dice_6;
+            default: return com.vypeensoft.diceroller.R.drawable.dice_1;
         }
     }
 

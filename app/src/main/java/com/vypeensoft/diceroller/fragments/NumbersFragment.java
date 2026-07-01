@@ -1,4 +1,4 @@
-package com.example.diceroller.fragments;
+package com.vypeensoft.diceroller.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,68 +10,68 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import com.example.diceroller.adapters.AlphabetAdapter;
-import com.example.diceroller.databinding.FragmentAlphabetBinding;
-import com.example.diceroller.utils.PreferenceManager;
-import com.example.diceroller.utils.RandomUtils;
+import com.vypeensoft.diceroller.adapters.NumberAdapter;
+import com.vypeensoft.diceroller.databinding.FragmentNumbersBinding;
+import com.vypeensoft.diceroller.utils.PreferenceManager;
+import com.vypeensoft.diceroller.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlphabetFragment extends Fragment {
+public class NumbersFragment extends Fragment {
 
-    private FragmentAlphabetBinding binding;
+    private FragmentNumbersBinding binding;
     private PreferenceManager prefManager;
-    private AlphabetAdapter adapter;
-    private List<Character> alphabets;
-    private int alphabetsCount;
+    private NumberAdapter adapter;
+    private List<Integer> numbers;
+    private int numbersCount;
     private Handler animationHandler;
     private Runnable animationRunnable;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentAlphabetBinding.inflate(inflater, container, false);
+        binding = FragmentNumbersBinding.inflate(inflater, container, false);
         prefManager = new PreferenceManager(requireContext());
-        alphabetsCount = 1; // Defaulting to 1 for simplicity, identical to number logic
+        numbersCount = prefManager.getDefaultNumbersCount();
         
-        alphabets = new ArrayList<>();
-        initAlphabets();
+        numbers = new ArrayList<>();
+        initNumbers();
 
-        adapter = new AlphabetAdapter(alphabets);
+        adapter = new NumberAdapter(numbers);
         binding.recyclerView.setAdapter(adapter);
         
         updateLayoutManager();
         updateCountUI();
 
         binding.btnMinus.setOnClickListener(v -> {
-            if (alphabetsCount > 1) {
-                alphabetsCount--;
+            if (numbersCount > 1) {
+                numbersCount--;
                 updateCountUI();
-                initAlphabets();
+                initNumbers();
                 updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
 
         binding.btnPlus.setOnClickListener(v -> {
-            if (alphabetsCount < 10) {
-                alphabetsCount++;
+            if (numbersCount < 10) {
+                numbersCount++;
                 updateCountUI();
-                initAlphabets();
+                initNumbers();
                 updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
 
-        binding.btnAction.setOnClickListener(v -> generateAlphabets());
+        binding.btnAction.setOnClickListener(v -> generateNumbers());
 
         return binding.getRoot();
     }
 
-    private void initAlphabets() {
-        alphabets.clear();
-        for (int i = 0; i < alphabetsCount; i++) {
-            alphabets.add('A');
+    private void initNumbers() {
+        numbers.clear();
+        for (int i = 0; i < numbersCount; i++) {
+            numbers.add(0);
         }
     }
 
@@ -80,7 +80,7 @@ public class AlphabetFragment extends Fragment {
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                int total = alphabetsCount;
+                int total = numbersCount;
                 if (total == 1) return 6;
                 if (total == 2) return 3;
                 if (total == 3) return 2;
@@ -110,7 +110,7 @@ public class AlphabetFragment extends Fragment {
     }
 
     private void updateCountUI() {
-        binding.tvCount.setText(String.valueOf(alphabetsCount));
+        binding.tvCount.setText(String.valueOf(numbersCount));
     }
 
     private void setControlsEnabled(boolean enabled) {
@@ -119,7 +119,7 @@ public class AlphabetFragment extends Fragment {
         binding.btnAction.setEnabled(enabled);
     }
 
-    private void generateAlphabets() {
+    private void generateNumbers() {
         setControlsEnabled(false);
         int duration = prefManager.getAnimationDuration();
         animationHandler = new Handler(Looper.getMainLooper());
@@ -131,14 +131,14 @@ public class AlphabetFragment extends Fragment {
             public void run() {
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 if (elapsedTime < duration) {
-                    for (int i = 0; i < alphabets.size(); i++) {
-                        alphabets.set(i, RandomUtils.getRandomAlphabet());
+                    for (int i = 0; i < numbers.size(); i++) {
+                        numbers.set(i, RandomUtils.getRandomNumber(100));
                     }
                     adapter.notifyDataSetChanged();
                     animationHandler.postDelayed(this, 100);
                 } else {
-                    for (int i = 0; i < alphabets.size(); i++) {
-                        alphabets.set(i, RandomUtils.getRandomAlphabet());
+                    for (int i = 0; i < numbers.size(); i++) {
+                        numbers.set(i, RandomUtils.getRandomNumber(100));
                     }
                     adapter.notifyDataSetChanged();
                     setControlsEnabled(true);

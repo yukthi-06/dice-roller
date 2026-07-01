@@ -1,4 +1,4 @@
-package com.example.diceroller.fragments;
+package com.vypeensoft.diceroller.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,107 +10,80 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import com.example.diceroller.adapters.NumberAdapter;
-import com.example.diceroller.databinding.FragmentNumbersBinding;
-import com.example.diceroller.utils.PreferenceManager;
-import com.example.diceroller.utils.RandomUtils;
+import com.vypeensoft.diceroller.adapters.WordAdapter;
+import com.vypeensoft.diceroller.databinding.FragmentWordsBinding;
+import com.vypeensoft.diceroller.utils.PreferenceManager;
+import com.vypeensoft.diceroller.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NumbersFragment extends Fragment {
+public class WordsFragment extends Fragment {
 
-    private FragmentNumbersBinding binding;
+    private FragmentWordsBinding binding;
     private PreferenceManager prefManager;
-    private NumberAdapter adapter;
-    private List<Integer> numbers;
-    private int numbersCount;
+    private WordAdapter adapter;
+    private List<String> words;
+    private int wordsCount;
     private Handler animationHandler;
     private Runnable animationRunnable;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentNumbersBinding.inflate(inflater, container, false);
+        binding = FragmentWordsBinding.inflate(inflater, container, false);
         prefManager = new PreferenceManager(requireContext());
-        numbersCount = prefManager.getDefaultNumbersCount();
+        wordsCount = 1; // Defaulting to 1 for simplicity, identical to alphabet logic
         
-        numbers = new ArrayList<>();
-        initNumbers();
+        RandomUtils.initDictionary(requireContext());
+        
+        words = new ArrayList<>();
+        initWords();
 
-        adapter = new NumberAdapter(numbers);
+        adapter = new WordAdapter(words);
         binding.recyclerView.setAdapter(adapter);
         
         updateLayoutManager();
         updateCountUI();
 
         binding.btnMinus.setOnClickListener(v -> {
-            if (numbersCount > 1) {
-                numbersCount--;
+            if (wordsCount > 1) {
+                wordsCount--;
                 updateCountUI();
-                initNumbers();
+                initWords();
                 updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
 
         binding.btnPlus.setOnClickListener(v -> {
-            if (numbersCount < 10) {
-                numbersCount++;
+            if (wordsCount < 10) {
+                wordsCount++;
                 updateCountUI();
-                initNumbers();
+                initWords();
                 updateLayoutManager();
                 adapter.notifyDataSetChanged();
             }
         });
 
-        binding.btnAction.setOnClickListener(v -> generateNumbers());
+        binding.btnAction.setOnClickListener(v -> generateWords());
 
         return binding.getRoot();
     }
 
-    private void initNumbers() {
-        numbers.clear();
-        for (int i = 0; i < numbersCount; i++) {
-            numbers.add(0);
+    private void initWords() {
+        words.clear();
+        for (int i = 0; i < wordsCount; i++) {
+            words.add("Word");
         }
     }
 
     private void updateLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 6);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                int total = numbersCount;
-                if (total == 1) return 6;
-                if (total == 2) return 3;
-                if (total == 3) return 2;
-                if (total == 4) return 3;
-                if (total == 5) {
-                    if (position < 3) return 2;
-                    else return 3;
-                }
-                if (total == 6) return 2;
-                if (total == 7) {
-                    if (position < 3) return 2;
-                    else return 3;
-                }
-                if (total == 8) {
-                    if (position < 6) return 2;
-                    else return 3;
-                }
-                if (total == 9) return 2;
-                if (total == 10) {
-                    if (position < 9) return 2;
-                    else return 6;
-                }
-                return 2;
-            }
-        });
+        androidx.recyclerview.widget.LinearLayoutManager layoutManager = new androidx.recyclerview.widget.LinearLayoutManager(requireContext());
         binding.recyclerView.setLayoutManager(layoutManager);
     }
 
     private void updateCountUI() {
-        binding.tvCount.setText(String.valueOf(numbersCount));
+        binding.tvCount.setText(String.valueOf(wordsCount));
     }
 
     private void setControlsEnabled(boolean enabled) {
@@ -119,7 +92,7 @@ public class NumbersFragment extends Fragment {
         binding.btnAction.setEnabled(enabled);
     }
 
-    private void generateNumbers() {
+    private void generateWords() {
         setControlsEnabled(false);
         int duration = prefManager.getAnimationDuration();
         animationHandler = new Handler(Looper.getMainLooper());
@@ -131,14 +104,14 @@ public class NumbersFragment extends Fragment {
             public void run() {
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 if (elapsedTime < duration) {
-                    for (int i = 0; i < numbers.size(); i++) {
-                        numbers.set(i, RandomUtils.getRandomNumber(100));
+                    for (int i = 0; i < words.size(); i++) {
+                        words.set(i, RandomUtils.getRandomGibberishWord());
                     }
                     adapter.notifyDataSetChanged();
                     animationHandler.postDelayed(this, 100);
                 } else {
-                    for (int i = 0; i < numbers.size(); i++) {
-                        numbers.set(i, RandomUtils.getRandomNumber(100));
+                    for (int i = 0; i < words.size(); i++) {
+                        words.set(i, RandomUtils.getRandomWord());
                     }
                     adapter.notifyDataSetChanged();
                     setControlsEnabled(true);

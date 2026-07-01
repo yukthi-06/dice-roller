@@ -1,4 +1,4 @@
-package com.example.diceroller.fragments;
+package com.vypeensoft.diceroller.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +16,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.widget.TextView;
-import com.example.diceroller.adapters.CardAdapter;
-import com.example.diceroller.databinding.FragmentCardsBinding;
-import com.example.diceroller.models.Card;
-import com.example.diceroller.utils.AnimationUtils;
-import com.example.diceroller.utils.PreferenceManager;
-import com.example.diceroller.utils.RandomUtils;
+import com.vypeensoft.diceroller.adapters.CardAdapter;
+import com.vypeensoft.diceroller.databinding.FragmentCardsBinding;
+import com.vypeensoft.diceroller.models.Card;
+import com.vypeensoft.diceroller.utils.AnimationUtils;
+import com.vypeensoft.diceroller.utils.PreferenceManager;
+import com.vypeensoft.diceroller.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,7 +173,7 @@ public class CardsFragment extends Fragment {
                             Card finalCard = finalCards.get(index);
                             cards.set(index, finalCard);
                             
-                            ((TextView) cardView).setBackgroundResource(com.example.diceroller.R.drawable.card_bg);
+                            ((TextView) cardView).setBackgroundResource(com.vypeensoft.diceroller.R.drawable.card_bg);
                             ((TextView) cardView).setText(finalCard.getDisplayString());
                             ((TextView) cardView).setTextColor(finalCard.isRed() ? Color.RED : Color.BLACK);
 

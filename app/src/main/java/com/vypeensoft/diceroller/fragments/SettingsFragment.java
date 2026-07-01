@@ -1,8 +1,8 @@
-package com.example.diceroller.fragments;
+package com.vypeensoft.diceroller.fragments;
 
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
-import com.example.diceroller.R;
+import com.vypeensoft.diceroller.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 

@@ -1,13 +1,13 @@
-package com.example.diceroller.adapters;
+package com.vypeensoft.diceroller.adapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.diceroller.R;
-import com.example.diceroller.databinding.ItemCardBinding;
-import com.example.diceroller.models.Card;
+import com.vypeensoft.diceroller.R;
+import com.vypeensoft.diceroller.databinding.ItemCardBinding;
+import com.vypeensoft.diceroller.models.Card;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {

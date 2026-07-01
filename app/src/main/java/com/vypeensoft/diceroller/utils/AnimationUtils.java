@@ -1,4 +1,4 @@
-package com.example.diceroller.utils;
+package com.vypeensoft.diceroller.utils;
 
 import android.animation.ObjectAnimator;
 import android.view.View;

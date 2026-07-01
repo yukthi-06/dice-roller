@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.diceroller'
+    namespace 'com.vypeensoft.diceroller'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.diceroller"
+        applicationId "com.vypeensoft.diceroller"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -36,13 +36,7 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${getBuildTime()}\""
     }
 
-    sourceSets {
-        main {
-            java {
-                exclude 'com/vypeensoft/**'
-            }
-        }
-    }
+
 
     buildFeatures {
         viewBinding true
@@ -76,21 +70,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
 }
 
-// Clean up legacy files from old project
-[
-    'src/main/res/layout/activity_about.xml',
-    'src/main/res/layout/activity_help.xml',
-    'src/main/res/layout/activity_settings.xml',
-    'src/main/res/layout/fragment_backups.xml',
-    'src/main/res/layout/fragment_installed_apps.xml',
-    'src/main/res/layout/fragment_settings.xml',
-    'src/main/res/layout/item_app.xml',
-    'src/main/res/layout/item_backup.xml',
-    'src/main/res/drawable/badge_bg.xml'
-].each {
-    def f = file(it)
-    if (f.exists()) f.delete()
-}
 
 // Copy dice.png to mipmap
 def diceFile = file('../dice.png')
@@ -110,11 +89,4 @@ if (diceFile.exists()) {
     }
 }
 
-// Copy words.txt to assets
-def wordsFile = file('../words.txt')
-def assetsDir = file('src/main/assets')
-if (wordsFile.exists()) {
-    if (!assetsDir.exists()) assetsDir.mkdirs()
-    file('src/main/assets/words.txt').bytes = wordsFile.bytes
-}
 

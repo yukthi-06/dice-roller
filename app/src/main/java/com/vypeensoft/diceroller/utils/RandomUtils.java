@@ -1,6 +1,6 @@
-package com.example.diceroller.utils;
+package com.vypeensoft.diceroller.utils;
 
-import com.example.diceroller.models.Card;
+import com.vypeensoft.diceroller.models.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

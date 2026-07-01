@@ -1,4 +1,4 @@
-package com.example.diceroller.models;
+package com.vypeensoft.diceroller.models;
 
 public class Card {
     private final String suit;

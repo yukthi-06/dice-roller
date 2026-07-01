@@ -1,10 +1,10 @@
-package com.example.diceroller.adapters;
+package com.vypeensoft.diceroller.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.diceroller.databinding.ItemAlphabetBinding;
+import com.vypeensoft.diceroller.databinding.ItemAlphabetBinding;
 import java.util.List;
 
 public class AlphabetAdapter extends RecyclerView.Adapter<AlphabetAdapter.AlphabetViewHolder> {
