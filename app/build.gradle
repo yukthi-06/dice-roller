@@ -89,3 +89,11 @@ if (diceFile.exists()) {
     }
 }
 
+// Copy words.txt to assets
+def wordsFile = file('../words.txt')
+def assetsDir = file('src/main/assets')
+if (wordsFile.exists()) {
+    if (!assetsDir.exists()) assetsDir.mkdirs()
+    file('src/main/assets/words.txt').bytes = wordsFile.bytes
+}
+

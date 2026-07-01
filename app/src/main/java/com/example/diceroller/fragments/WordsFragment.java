@@ -34,6 +34,8 @@ public class WordsFragment extends Fragment {
         prefManager = new PreferenceManager(requireContext());
         wordsCount = 1; // Defaulting to 1 for simplicity, identical to alphabet logic
         
+        RandomUtils.initDictionary(requireContext());
+        
         words = new ArrayList<>();
         initWords();
 

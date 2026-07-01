@@ -15,14 +15,25 @@ public class RandomUtils {
         return random.nextInt(6) + 1; // 1-6
     }
 
-    private static final String[] DICTIONARY = {
-        "Apple", "Banana", "Cat", "Dog", "Elephant", "Frog", "Giraffe", "Horse", "Ice", "Jungle",
-        "Kangaroo", "Lion", "Monkey", "Nest", "Orange", "Penguin", "Queen", "Rabbit", "Sun", "Tree",
-        "Umbrella", "Violet", "Water", "Xylophone", "Yellow", "Zebra", "Bird", "Car", "Desk", "Fish",
-        "Goat", "Hat", "Igloo", "Juice", "Kite", "Lamp", "Mouse", "Nut", "Owl", "Pig",
-        "Quilt", "Rose", "Star", "Train", "Unicorn", "Van", "Whale", "Yacht", "Zip", "Ant",
-        "Bear", "Cow", "Duck", "Eagle", "Fox", "Guitar", "House", "Island", "Jacket", "Key"
-    };
+    private static final List<String> DICTIONARY = new ArrayList<>();
+
+    public static void initDictionary(android.content.Context context) {
+        if (!DICTIONARY.isEmpty()) return;
+        try {
+            java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(context.getAssets().open("words.txt")));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (!line.isEmpty()) {
+                    DICTIONARY.add(line);
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            DICTIONARY.add("Error");
+        }
+    }
 
     public static int getRandomNumber(int max) {
         return random.nextInt(max) + 1; // 1-max
@@ -33,7 +44,8 @@ public class RandomUtils {
     }
 
     public static String getRandomWord() {
-        return DICTIONARY[random.nextInt(DICTIONARY.length)];
+        if (DICTIONARY.isEmpty()) return "Error";
+        return DICTIONARY.get(random.nextInt(DICTIONARY.size()));
     }
 
     public static List<Card> getStandardDeck() {
