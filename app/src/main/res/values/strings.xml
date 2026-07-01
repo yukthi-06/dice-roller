@@ -12,7 +12,7 @@
     <string name="action_roll">Roll Dice</string>
     <string name="action_pick">Pick Cards</string>
     <string name="action_generate">Generate Numbers</string>
-    <string name="action_alphabet">Generate Alphabet</string>
+    <string name="action_alphabet">Generate Letters</string>
     <string name="action_words">Generate Words</string>
     
     <string name="navigation_drawer_open">Open navigation drawer</string>
