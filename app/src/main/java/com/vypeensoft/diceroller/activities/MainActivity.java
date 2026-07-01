@@ -15,8 +15,21 @@ import com.vypeensoft.diceroller.fragments.DiceFragment;
 import com.vypeensoft.diceroller.fragments.HelpFragment;
 import com.vypeensoft.diceroller.fragments.NumbersFragment;
 import com.vypeensoft.diceroller.fragments.SettingsFragment;
+import com.vypeensoft.diceroller.utils.SettingsExporter;
 
-public class MainActivity extends AppCompatActivity {
+import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
+
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ActivityMainBinding binding;
     private ActionBarDrawerToggle toggle;
@@ -39,6 +52,52 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_dice);
             replaceFragment(new DiceFragment(), getString(R.string.menu_dice));
+        }
+
+        checkAndRequestPermissions();
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        SettingsExporter.exportSettingsToJson(this);
+    }
+
+    private void checkAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                try {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.setData(Uri.parse(String.format("package:%s", getPackageName())));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    startActivity(intent);
+                }
+            } else {
+                SettingsExporter.exportSettingsToJson(this);
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            } else {
+                SettingsExporter.exportSettingsToJson(this);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            SettingsExporter.exportSettingsToJson(this);
         }
     }
 
