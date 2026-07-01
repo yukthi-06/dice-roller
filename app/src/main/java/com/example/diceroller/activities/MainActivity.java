@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.nav_numbers) {
             fragment = new NumbersFragment();
             title = getString(R.string.menu_numbers);
+        } else if (id == R.id.nav_alphabet) {
+            fragment = new com.example.diceroller.fragments.AlphabetFragment();
+            title = getString(R.string.menu_alphabet);
         } else if (id == R.id.nav_settings) {
             fragment = new SettingsFragment();
             title = getString(R.string.menu_settings);

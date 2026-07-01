@@ -19,6 +19,10 @@ public class RandomUtils {
         return random.nextInt(max) + 1; // 1-max
     }
 
+    public static char getRandomAlphabet() {
+        return (char) ('A' + random.nextInt(26));
+    }
+
     public static List<Card> getStandardDeck() {
         List<Card> deck = new ArrayList<>();
         for (String suit : SUITS) {

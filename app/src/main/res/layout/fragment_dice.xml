@@ -66,7 +66,7 @@
         android:id="@+id/btn_action"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:text="@string/roll_dice"
+        android:text="@string/action_roll"
         android:textSize="20sp"
         app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

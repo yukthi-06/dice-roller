@@ -9,7 +9,12 @@
             android:title="@string/menu_cards" />
         <item
             android:id="@+id/nav_numbers"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
             android:title="@string/menu_numbers" />
+        <item
+            android:id="@+id/nav_alphabet"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
+            android:title="@string/menu_alphabet" />
     </group>
     
     <item android:title="Other">
