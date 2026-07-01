@@ -51,8 +51,37 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_dice);
-            replaceFragment(new DiceFragment(), getString(R.string.menu_dice));
+            replaceFragment(new DiceFragment(), getString(R.string.menu_dice), false);
         }
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                toggle.setDrawerIndicatorEnabled(true);
+                MenuItem item = binding.navView.getCheckedItem();
+                if (item != null) {
+                    int navId = item.getItemId();
+                    String navTitle = "";
+                    if (navId == R.id.nav_dice) navTitle = getString(R.string.menu_dice);
+                    else if (navId == R.id.nav_cards) navTitle = getString(R.string.menu_cards);
+                    else if (navId == R.id.nav_numbers) navTitle = getString(R.string.menu_numbers);
+                    else if (navId == R.id.nav_alphabet) navTitle = getString(R.string.menu_alphabet);
+                    else if (navId == R.id.nav_words) navTitle = getString(R.string.menu_words);
+                    if (getSupportActionBar() != null && !navTitle.isEmpty()) getSupportActionBar().setTitle(navTitle);
+                }
+            } else {
+                toggle.setDrawerIndicatorEnabled(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+                }
+            }
+        });
+
+        toggle.setToolbarNavigationClickListener(v -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            }
+        });
 
         checkAndRequestPermissions();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
@@ -106,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         String title = "";
         
         int id = item.getItemId();
+        boolean isSecondary = false;
+
         if (id == R.id.nav_dice) {
             fragment = new DiceFragment();
             title = getString(R.string.menu_dice);
@@ -124,26 +155,34 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         } else if (id == R.id.nav_settings) {
             fragment = new SettingsFragment();
             title = getString(R.string.menu_settings);
+            isSecondary = true;
         } else if (id == R.id.nav_help) {
             fragment = new HelpFragment();
             title = getString(R.string.menu_help);
+            isSecondary = true;
         } else if (id == R.id.nav_about) {
             fragment = new AboutFragment();
             title = getString(R.string.menu_about);
+            isSecondary = true;
         }
 
         if (fragment != null) {
-            replaceFragment(fragment, title);
+            replaceFragment(fragment, title, isSecondary);
         }
 
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void replaceFragment(Fragment fragment, String title) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+    private void replaceFragment(Fragment fragment, String title, boolean isSecondary) {
+        getSupportFragmentManager().popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        if (isSecondary) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
