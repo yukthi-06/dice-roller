@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/primary" />
-    <corners android:radius="8dp" />
-    <stroke android:width="4dp" android:color="#FFFFFF" />
-</shape>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="280dp"
+    android:viewportWidth="200"
+    android:viewportHeight="280">
+
+    <!-- Card Base (White Border) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 16,0 L 184,0 A 16,16 0 0 1 200,16 L 200,264 A 16,16 0 0 1 184,280 L 16,280 A 16,16 0 0 1 0,264 L 0,16 A 16,16 0 0 1 16,0 z" />
+
+    <!-- Inner Background (Classic Bicycle Red) -->
+    <path
+        android:fillColor="#B71C1C"
+        android:pathData="M 16,12 L 184,12 A 4,4 0 0 1 188,16 L 188,264 A 4,4 0 0 1 184,268 L 16,268 A 4,4 0 0 1 12,264 L 12,16 A 4,4 0 0 1 16,12 z" />
+
+    <!-- Ornate Backing Pattern (Geometric criss-cross) -->
+    <!-- Diagonal lattice -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:pathData="M 12,20 L 188,20 M 12,40 L 188,40 M 12,60 L 188,60 M 12,80 L 188,80 M 12,100 L 188,100 M 12,120 L 188,120 M 12,140 L 188,140 M 12,160 L 188,160 M 12,180 L 188,180 M 12,200 L 188,200 M 12,220 L 188,220 M 12,240 L 188,240 M 12,260 L 188,260" />
+
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:pathData="M 20,12 L 20,268 M 40,12 L 40,268 M 60,12 L 60,268 M 80,12 L 80,268 M 100,12 L 100,268 M 120,12 L 120,268 M 140,12 L 140,268 M 160,12 L 160,268 M 180,12 L 180,268" />
+        
+    <path
+        android:strokeColor="#B71C1C"
+        android:strokeWidth="6"
+        android:pathData="M 100,30 L 170,140 L 100,250 L 30,140 z" />
+
+    <!-- Centerpiece Emblem -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:fillColor="#FFFFFF"
+        android:pathData="M 100,50 L 157,140 L 100,230 L 43,140 z" />
+        
+    <path
+        android:strokeColor="#B71C1C"
+        android:strokeWidth="2"
+        android:pathData="M 100,70 L 145,140 L 100,210 L 55,140 z" />
+
+    <path
+        android:strokeColor="#B71C1C"
+        android:strokeWidth="3"
+        android:pathData="M 100,140 m -25,0 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0" />
+
+    <path
+        android:fillColor="#B71C1C"
+        android:pathData="M 100,140 m -15,0 a 15,15 0 1,1 30,0 a 15,15 0 1,1 -30,0" />
+        
+    <!-- Border flourishes -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4"
+        android:pathData="M 20,20 L 50,20 L 50,50 L 20,50 z M 150,20 L 180,20 L 180,50 L 150,50 z M 20,230 L 50,230 L 50,260 L 20,260 z M 150,230 L 180,230 L 180,260 L 150,260 z" />
+</vector>
