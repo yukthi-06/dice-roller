@@ -21,7 +21,9 @@ public class AboutFragment extends Fragment {
         String buildInfo = "App Version: " + com.example.diceroller.BuildConfig.VERSION_NAME + "\n"
                 + "Version Code: " + com.example.diceroller.BuildConfig.VERSION_CODE + "\n"
                 + "Build Type: " + com.example.diceroller.BuildConfig.BUILD_TYPE + "\n"
-                + "Application ID: " + com.example.diceroller.BuildConfig.APPLICATION_ID;
+                + "Application ID: " + com.example.diceroller.BuildConfig.APPLICATION_ID + "\n"
+                + "Git Version: " + com.example.diceroller.BuildConfig.GIT_VERSION + "\n"
+                + "Build Time: " + com.example.diceroller.BuildConfig.BUILD_TIME;
         binding.tvBuildInfo.setText(buildInfo);
         
         return binding.getRoot();
