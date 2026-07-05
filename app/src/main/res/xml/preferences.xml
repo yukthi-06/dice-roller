@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
-    <PreferenceCategory app:title="General Settings">
+    <PreferenceCategory app:title="General Settings (Not Implemented)">
         <SwitchPreferenceCompat
             app:key="pref_dark_mode"
             app:title="@string/pref_dark_mode_title"
